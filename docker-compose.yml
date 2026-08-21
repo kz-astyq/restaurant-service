@@ -1,0 +1,29 @@
+# Usage:
+#   docker compose up -d
+#   docker compose logs -f
+
+services:
+  postgres:
+    image: postgres:18.1-bookworm
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: ${DATABASE_DBNAME:-restaurant_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USER:-postgres}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    networks:
+      - restaurant-network
+
+networks:
+  restaurant-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
