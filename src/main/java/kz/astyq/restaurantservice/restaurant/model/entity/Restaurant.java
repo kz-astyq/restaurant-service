@@ -36,7 +36,7 @@ public class Restaurant extends AuditableEntity {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, length = 30)
     private String phone;
 
     @Enumerated(EnumType.STRING)

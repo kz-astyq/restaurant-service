@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 public class MessageCode {
 
     public static final String RESTAURANT_NOT_FOUND = "restaurant_not_found";
-
+    public static final String RESTAURANT_ALREADY_EXISTS = "restaurant_already_exists";
 }

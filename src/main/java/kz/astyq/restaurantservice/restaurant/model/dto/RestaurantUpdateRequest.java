@@ -21,6 +21,5 @@ public class RestaurantUpdateRequest {
     @NotBlank
     private String phone;
     @NonNull
-    @NotBlank
     private RestaurantStatus status;
 }
