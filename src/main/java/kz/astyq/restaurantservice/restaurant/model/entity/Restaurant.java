@@ -24,7 +24,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLDelete(
         sql = "update restaurants set is_deleted = true, deleted_at = now() where id = ?"
 )
-@SQLRestriction("is_deleted = 0")
+@SQLRestriction("is_deleted = false")
 public class Restaurant extends AuditableEntity {
 
     @Column(nullable = false)

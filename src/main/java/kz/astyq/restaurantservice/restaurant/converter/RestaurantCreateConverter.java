@@ -2,6 +2,7 @@ package kz.astyq.restaurantservice.restaurant.converter;
 
 import kz.astyq.restaurantservice.restaurant.model.dto.RestaurantCreateRequest;
 import kz.astyq.restaurantservice.restaurant.model.entity.Restaurant;
+import kz.astyq.restaurantservice.restaurant.model.enums.RestaurantStatus;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ public class RestaurantCreateConverter implements Converter<RestaurantCreateRequ
                 .description(source.getDescription())
                 .address(source.getAddress())
                 .phone(source.getPhone())
+                .status(RestaurantStatus.ACTIVE)
                 .build();
     }
 }

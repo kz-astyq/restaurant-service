@@ -4,17 +4,8 @@ CREATE SEQUENCE s_restaurant
     START 1;
 
 
-CREATE TABLE public.common_subjects
-(
 
-    created_at TIMESTAMP NOT NULL,
-    deleted_at TIMESTAMP,
-    is_deleted SMALLINT,
-    updated_at TIMESTAMP,
-    name_key   VARCHAR(255)
-);
-
-CREATE TABLE restaurants
+CREATE TABLE public.restaurants
 (
     id          BIGINT                   NOT NULL PRIMARY KEY,
     name        VARCHAR(255)             NOT NULL,
@@ -24,5 +15,6 @@ CREATE TABLE restaurants
     status      VARCHAR(50)              NOT NULL,
     created_at  TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at  TIMESTAMP WITH TIME ZONE,
-    deleted_at  TIMESTAMP WITH TIME ZONE
+    deleted_at  TIMESTAMP WITH TIME ZONE,
+    is_deleted  BOOLEAN DEFAULT FALSE
 );
