@@ -27,7 +27,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLRestriction("is_deleted = 0")
 public class Restaurant extends AuditableEntity {
 
-    @Column(nullable = false, length = 150)
+    @Column(nullable = false)
     private String name;
 
     @Column(columnDefinition = "text")
@@ -36,7 +36,7 @@ public class Restaurant extends AuditableEntity {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, unique = true, length = 30)
     private String phone;
 
     @Enumerated(EnumType.STRING)
