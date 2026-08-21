@@ -1,5 +1,6 @@
 package kz.astyq.restaurantservice.restaurant.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -7,11 +8,18 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantSaveRequest {
-    private Long id;
+public class RestaurantCreateRequest {
+    @NonNull
+    @NotBlank
     private String name;
+
     private String description;
+
+    @NonNull
+    @NotBlank
     private String address;
+
+    @NonNull
+    @NotBlank
     private String phone;
-    private String status;
 }
