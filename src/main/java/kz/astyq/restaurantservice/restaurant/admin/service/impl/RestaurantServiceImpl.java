@@ -2,8 +2,7 @@ package kz.astyq.restaurantservice.restaurant.admin.service.impl;
 
 import kz.astyq.restaurantservice.core.exception.ServiceValidationException;
 import kz.astyq.restaurantservice.core.util.ErrorCode;
-import kz.astyq.restaurantservice.restaurant.converter.RestaurantCreateConverter;
-import kz.astyq.restaurantservice.restaurant.converter.RestaurantViewConverter;
+import kz.astyq.restaurantservice.restaurant.mapper.RestaurantMapper;
 import kz.astyq.restaurantservice.restaurant.model.dto.RestaurantCreateRequest;
 import kz.astyq.restaurantservice.restaurant.model.dto.RestaurantUpdateRequest;
 import kz.astyq.restaurantservice.restaurant.model.dto.RestaurantViewResponse;
@@ -23,8 +22,7 @@ import static kz.astyq.restaurantservice.restaurant.util.MessageCode.RESTAURANT_
 public class RestaurantServiceImpl implements kz.astyq.restaurantservice.restaurant.admin.service.RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
-    private final RestaurantCreateConverter restaurantCreateConverter;
-    private final RestaurantViewConverter restaurantViewConverter;
+    private final RestaurantMapper restaurantMapper;
 
     @Override
     public RestaurantViewResponse create(RestaurantCreateRequest request) {
@@ -32,20 +30,16 @@ public class RestaurantServiceImpl implements kz.astyq.restaurantservice.restaur
             throw new ServiceValidationException(UNIQUE_RESOURCE_CONFLICT, RESTAURANT_ALREADY_EXISTS, request.getPhone()
             );
         }
-        Restaurant res = restaurantCreateConverter.convert(request);
-        return restaurantViewConverter.convert(restaurantRepository.save(res));
+        Restaurant res = restaurantMapper.toEntity(request);
+        return restaurantMapper.toViewResponse(restaurantRepository.save(res));
     }
 
     @Override
     public RestaurantViewResponse updateById(Long id, RestaurantUpdateRequest source) {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new ServiceValidationException(ErrorCode.RESOURCE_NOT_FOUND, RESTAURANT_NOT_FOUND, id));
-        restaurant.setName(source.getName());
-        restaurant.setDescription(source.getDescription());
-        restaurant.setAddress(source.getAddress());
-        restaurant.setPhone(source.getPhone());
-        restaurant.setStatus(source.getStatus());
-        return restaurantViewConverter.convert(restaurantRepository.save(restaurant));
+        restaurantMapper.updateEntity(source, restaurant);
+        return restaurantMapper.toViewResponse(restaurantRepository.save(restaurant));
     }
 
     @Override
@@ -59,11 +53,11 @@ public class RestaurantServiceImpl implements kz.astyq.restaurantservice.restaur
     public RestaurantViewResponse findById(Long id) {
         Restaurant res = restaurantRepository.findById(id)
                 .orElseThrow(() -> new ServiceValidationException(ErrorCode.RESOURCE_NOT_FOUND, RESTAURANT_NOT_FOUND, id));
-        return restaurantViewConverter.convert(res);
+        return restaurantMapper.toViewResponse(res);
     }
 
     @Override
-    public Page<RestaurantViewResponse> getAll(Pageable pageable) {
-        return restaurantRepository.findAll(pageable).map(restaurantViewConverter::convert);
+    public Page<RestaurantViewResponse> getPage(Pageable pageable) {
+        return restaurantRepository.findAll(pageable).map(restaurantMapper::toViewResponse);
     }
 }

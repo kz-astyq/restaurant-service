@@ -15,5 +15,5 @@ public interface RestaurantService {
 
     RestaurantViewResponse findById(Long id);
 
-    Page<RestaurantViewResponse> getAll(Pageable pageable);
+    Page<RestaurantViewResponse> getPage(Pageable pageable);
 }
