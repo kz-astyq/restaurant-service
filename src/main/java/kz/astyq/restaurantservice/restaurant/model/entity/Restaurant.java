@@ -2,11 +2,15 @@ package kz.astyq.restaurantservice.restaurant.model.entity;
 
 import jakarta.persistence.*;
 import kz.astyq.restaurantservice.core.model.AuditableEntity;
+import kz.astyq.restaurantservice.menu_category.models.entity.MenuCategory;
 import kz.astyq.restaurantservice.restaurant.model.enums.RestaurantStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -42,4 +46,7 @@ public class Restaurant extends AuditableEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private RestaurantStatus status;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuCategory> categories = new ArrayList<>();
 }
