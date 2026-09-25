@@ -5,8 +5,12 @@ import kz.astyq.restaurantservice.menu_category.admin.service.MenuCategoryServic
 import kz.astyq.restaurantservice.menu_category.models.dto.MenuCategoryCreateRequest;
 import kz.astyq.restaurantservice.menu_category.models.dto.MenuCategoryUpdateRequest;
 import kz.astyq.restaurantservice.menu_category.models.dto.MenuCategoryViewResponse;
+import kz.astyq.restaurantservice.menu_item.admin.service.MenuItemService;
+import kz.astyq.restaurantservice.menu_item.model.dto.MenuItemViewResponse;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,26 +18,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/menu-categories")
 @RequiredArgsConstructor
 public class MenuCategoryAdminController {
-    private final MenuCategoryService menuCategoryService;
+    private final MenuCategoryService service;
+    private final MenuItemService menuItemService;
 
     @PostMapping
     public MenuCategoryViewResponse createMenuCategory(@Valid @RequestBody MenuCategoryCreateRequest request) {
-        return menuCategoryService.createMenuCategory(request);
+        return service.createMenuCategory(request);
     }
 
     @PutMapping("/{id}")
     public MenuCategoryViewResponse updateMenuCategory(@PathVariable Long id, @Valid @RequestBody MenuCategoryUpdateRequest request) {
-        return menuCategoryService.updateMenuCategory(id, request);
+        return service.updateMenuCategory(id, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMenuCategory(@PathVariable Long id) {
-        menuCategoryService.deleteMenuCategory(id);
+        service.deleteMenuCategory(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
     public MenuCategoryViewResponse getMenuCategory(@PathVariable Long id) {
-        return menuCategoryService.findById(id);
+        return service.findById(id);
+    }
+
+    @GetMapping("{id}/menu-items")
+    public Page<MenuItemViewResponse> getMenuItems(@PathVariable Long id, @ParameterObject Pageable pageable) {
+        return menuItemService.getPageByCategoryId(id, pageable);
     }
 }
