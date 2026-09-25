@@ -3,6 +3,7 @@ package kz.astyq.restaurantservice.restaurant.model.entity;
 import jakarta.persistence.*;
 import kz.astyq.restaurantservice.core.model.AuditableEntity;
 import kz.astyq.restaurantservice.menu_category.models.entity.MenuCategory;
+import kz.astyq.restaurantservice.opening_hours.model.entity.OpeningHour;
 import kz.astyq.restaurantservice.restaurant.model.enums.RestaurantStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -47,6 +48,11 @@ public class Restaurant extends AuditableEntity {
     @Column(nullable = false, length = 30)
     private RestaurantStatus status;
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuCategory> categories = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OpeningHour> openingHours = new ArrayList<>();
 }
