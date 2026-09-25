@@ -36,4 +36,7 @@ public class MenuCategory extends AuditableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @Column(name = "restaurant_id", insertable = false, updatable = false)
+    private Long restaurantId;
 }
