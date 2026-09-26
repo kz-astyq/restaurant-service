@@ -74,4 +74,13 @@ public class MenuItemServiceImpl implements MenuItemService {
     public Page<MenuItemViewResponse> getPageByCategoryId(Long categoryId, Pageable pageable) {
         return repository.findAllByCategoryId(pageable, categoryId).map(mapper::toViewResponse);
     }
+
+    @Override
+    public void updateAvailability(Long id) {
+        MenuItem item = repository.findById(id)
+                .orElseThrow(() -> new ServiceValidationException(
+                        ErrorCode.RESOURCE_NOT_FOUND, MENU_ITEM_NOT_FOUND, id));
+        item.setIsAvailable(!item.getIsAvailable());
+        repository.save(item);
+    }
 }

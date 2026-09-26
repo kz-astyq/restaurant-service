@@ -51,6 +51,12 @@ public class RestaurantAdminController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("{id}/status")
+    public ResponseEntity<Void> updateRestaurantStatus(@PathVariable Long id) {
+        restaurantService.updateStatus(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}/menu-categories")
     public Page<MenuCategoryViewResponse> getMenuCategories(@PathVariable Long id, @ParameterObject Pageable pageable) {
         return menuCategoryService.getPageByRestaurantId(id, pageable);

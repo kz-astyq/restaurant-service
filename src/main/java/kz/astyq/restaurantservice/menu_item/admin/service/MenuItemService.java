@@ -16,4 +16,6 @@ public interface MenuItemService {
     MenuItemViewResponse findById(Long id);
 
     Page<MenuItemViewResponse> getPageByCategoryId(Long categoryId, Pageable pageable);
+
+    void updateAvailability(Long id);
 }

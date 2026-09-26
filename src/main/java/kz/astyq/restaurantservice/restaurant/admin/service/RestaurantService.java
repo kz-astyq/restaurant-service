@@ -16,4 +16,6 @@ public interface RestaurantService {
     RestaurantViewResponse findById(Long id);
 
     Page<RestaurantViewResponse> getPage(Pageable pageable);
+
+    void updateStatus(Long id);
 }
