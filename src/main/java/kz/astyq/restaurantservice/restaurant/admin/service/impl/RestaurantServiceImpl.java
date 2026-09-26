@@ -73,6 +73,14 @@ public class RestaurantServiceImpl implements kz.astyq.restaurantservice.restaur
         return repository.findAll(pageable).map(restaurantMapper::toViewResponse);
     }
 
+    @Override
+    public void updateStatus(Long id) {
+        Restaurant restaurant = repository.findById(id)
+                .orElseThrow(() -> new ServiceValidationException(ErrorCode.RESOURCE_NOT_FOUND, RESTAURANT_NOT_FOUND, id));
+        restaurant.setStatus(restaurant.getStatus());
+        repository.save(restaurant);
+    }
+
     private void validateNoOverlaps(List<OpeningHour> hours) {
         Map<DayOfWeek, List<OpeningHour>> byDay = hours.stream()
                 .collect(Collectors.groupingBy(OpeningHour::getDayOfWeek));

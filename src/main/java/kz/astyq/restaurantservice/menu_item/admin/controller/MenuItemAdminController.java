@@ -35,4 +35,9 @@ public class MenuItemAdminController {
     public MenuItemViewResponse getMenuItem(@PathVariable Long id) {
         return service.findById(id);
     }
+
+    @PatchMapping("/{id}/availability")
+    public void updateAvailability(@PathVariable Long id) {
+        service.updateAvailability(id);
+    }
 }
